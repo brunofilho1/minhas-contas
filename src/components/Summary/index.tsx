@@ -3,7 +3,6 @@ import incomeImg from "../../assets/income.svg";
 import outcomeImg from "../../assets/outcome.svg";
 import totalImg from "../../assets/total.svg";
 import { useTransactions } from "../../hooks/useTransactions";
-import "./styles.scss";
 
 export function Summary() {
   const { transactions } = useTransactions();

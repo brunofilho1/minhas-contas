@@ -8,7 +8,7 @@ export function TransactionsTable() {
   const { transactions, removeTransaction } = useTransactions();
 
   return (
-    <Container>
+    <Container id="transactionsContainer">
       {transactions.length > 0 ? (
         <table>
           <thead>

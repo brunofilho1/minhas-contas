@@ -8,7 +8,7 @@ interface HeaderProps {
 export function Header({ onOpenNewTransactionModal }: HeaderProps) {
   return (
     <Container>
-      <Content>
+      <Content id="headerContent">
         <img src={logoImg} alt="minhas.conta$" />
         <button onClick={onOpenNewTransactionModal}>Nova transação</button>
       </Content>

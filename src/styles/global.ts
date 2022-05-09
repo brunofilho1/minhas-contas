@@ -30,6 +30,37 @@ export const GlobalStyle = createGlobalStyle`
 
     @media (max-width: 720px) {
       font-size: 87.5%; // 14px
+
+      #headerContent {
+        display: flex;
+        flex-direction: column;
+        padding: 2rem 1rem 31rem;
+        gap: 20px;
+
+        button {
+          width: 100%;
+        }
+      }
+
+      #summaryContainer {
+        margin-top: -32rem;
+      }
+
+      #summaryContainer {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      #transactionsContainer {
+        margin-top: 2rem;
+      }
+
+      #optionIcons {
+        padding: 0 15px !important;
+      }
+
+      
     }
   }
 
