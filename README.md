@@ -51,4 +51,4 @@ O app estará disponível no seu browser pelo endereço http://localhost:3000 as
 
 ## 🌐 Live preview
 
-Sem Live Preview
+<a src="https://brunofilho1.github.io/minhas-contas/" target="_blank">https://brunofilho1.github.io/minhas-contas/</a>
