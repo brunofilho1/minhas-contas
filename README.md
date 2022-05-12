@@ -1,6 +1,6 @@
 ## 💻 Sobre o projeto
 
-O minhas.conta$ é uma aplicação de controle financeiro, onde é possível cadastrar e excluir transações e ver o saldo de entrada e saída 💰
+O minhas.conta$ é uma aplicação de controle financeiro, onde é possível cadastrar, excluir transações e ver o saldo de entrada e saída 💰
 
 <h1 align="center">
     <img width="900px" alt="Imagem da aplicação" src=".github/empty-home.PNG" />
@@ -51,4 +51,4 @@ O app estará disponível no seu browser pelo endereço http://localhost:3000 as
 
 ## 🌐 Live preview
 
-Sem Live Preview
+<a src="https://brunofilho1.github.io/minhas-contas/" target="_blank">https://brunofilho1.github.io/minhas-contas/</a>
