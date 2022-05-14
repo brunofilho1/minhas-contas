@@ -54,7 +54,7 @@ export const Container = styled.div`
         transition: 0.2s;
 
         &:hover {
-          color: var(--blue);
+          color: var(--purple);
         }
       }
     }
