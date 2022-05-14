@@ -8,11 +8,11 @@ Modal.setAppElement("#root");
 
 export function App() {
   return (
-    <TransactionsProvider>
-      <Router>
+    <Router>
+      <TransactionsProvider>
         <RoutesApp />
-      </Router>
-      <GlobalStyle />
-    </TransactionsProvider>
+        <GlobalStyle />
+      </TransactionsProvider>
+    </Router>
   );
 }

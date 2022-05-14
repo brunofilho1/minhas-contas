@@ -1,8 +1,9 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { useTransactions } from "../../hooks/useTransactions";
 import { Container } from "./styles";
 import { FaRegTrashAlt } from "react-icons/fa";
 import cactusImg from "../../assets/cactus.png";
+import { useAuth } from "../../hooks/useAuth";
 
 export function TransactionsTable() {
   const { transactions, removeTransaction } = useTransactions();

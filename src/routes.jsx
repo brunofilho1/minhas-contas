@@ -1,4 +1,4 @@
-/* eslint-disable react/prop-types */
+import { useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useAuth } from "./hooks/useAuth";
 import HomeScreen from "./pages/Home";
@@ -8,11 +8,11 @@ import TransactionsScreen from "./pages/Transactions";
 export default function RoutesApp() {
   const { userInfo } = useAuth();
 
-  const PrivateRoute = ({ children, redirectTo }: any) => {
+  const PrivateRoute = ({ children, redirectTo }) => {
     return userInfo?.IsLogged ? children : <Navigate to={redirectTo} />;
   };
 
-  const PublicRoute = ({ children, redirectTo }: any) => {
+  const PublicRoute = ({ children, redirectTo }) => {
     return userInfo?.IsLogged ? <Navigate to={redirectTo} /> : children;
   };
 
@@ -22,7 +22,7 @@ export default function RoutesApp() {
         <Route
           path="/"
           element={
-            <PublicRoute redirectTo="/">
+            <PublicRoute redirectTo="/transactions">
               <HomeScreen />
             </PublicRoute>
           }
@@ -30,7 +30,7 @@ export default function RoutesApp() {
         <Route
           path="/login"
           element={
-            <PublicRoute redirectTo="/login">
+            <PublicRoute redirectTo="/transactions">
               <LoginScreen />
             </PublicRoute>
           }
