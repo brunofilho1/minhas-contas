@@ -61,17 +61,11 @@ export function NewTransactionModal({
           required
         />
         <CurrencyInput
-          name="input-name"
           placeholder="Valor"
           prefix="R$"
           defaultValue={0}
-          onValueChange={(value, name) => console.log(value, name)}
-          onChange={(event) => {
-            const amountNumbers = event?.target.value
-              .replace(".", "")
-              .replace("R$", "");
-            console.log(amountNumbers);
-            setAmount(Number(amountNumbers));
+          onValueChange={(value, name) => {
+            setAmount(Number(value));
           }}
         />
 
