@@ -5,6 +5,7 @@ import incomeImg from "../../../assets/income.svg";
 import outcomeImg from "../../../assets/outcome.svg";
 import { Container, TransactionTypeContainer, RadioBox } from "./styles";
 import { useTransactions } from "../../../hooks/useTransactions";
+import CurrencyInput from "react-currency-input-field";
 interface NewTransactionModalProps {
   isOpen: boolean;
   onRequestClose: () => void;
@@ -52,7 +53,6 @@ export function NewTransactionModal({
 
       <Container onSubmit={handleCreateNewTransaction}>
         <h2>Cadastrar transação</h2>
-
         <input
           type="text"
           placeholder="Título"
@@ -60,13 +60,19 @@ export function NewTransactionModal({
           onChange={(event) => setTitle(event.target.value)}
           required
         />
-
-        <input
-          type="number"
+        <CurrencyInput
+          name="input-name"
           placeholder="Valor"
-          value={amount}
-          onChange={(event) => setAmount(Number(event.target.value))}
-          required
+          prefix="R$"
+          defaultValue={0}
+          onValueChange={(value, name) => console.log(value, name)}
+          onChange={(event) => {
+            const amountNumbers = event?.target.value
+              .replace(".", "")
+              .replace("R$", "");
+            console.log(amountNumbers);
+            setAmount(Number(amountNumbers));
+          }}
         />
 
         <TransactionTypeContainer>
@@ -90,7 +96,6 @@ export function NewTransactionModal({
             <span>Saída</span>
           </RadioBox>
         </TransactionTypeContainer>
-
         <input
           type="text"
           placeholder="Categoria"
@@ -98,7 +103,6 @@ export function NewTransactionModal({
           onChange={(event) => setCategory(event.target.value)}
           required
         />
-
         <button type="submit">Cadastrar</button>
       </Container>
     </Modal>
