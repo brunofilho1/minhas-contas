@@ -65,7 +65,7 @@ export function NewTransactionModal({
           prefix="R$"
           defaultValue={0}
           onValueChange={(value, name) => {
-            setAmount(Number(value));
+            setAmount(Number(value?.replace(",", ".")));
           }}
         />
 
