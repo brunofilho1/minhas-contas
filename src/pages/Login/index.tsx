@@ -25,7 +25,6 @@ export default function LoginScreen() {
 
     if (response) {
       toast.success("Logado com sucesso!");
-      return navigate("/transactions");
     } else {
       toast.error("E-mail ou senha incorreta!");
     }
@@ -48,7 +47,7 @@ export default function LoginScreen() {
             onChange={handleChange}
           />
           <input
-            type="text"
+            type="password"
             name="password"
             title="Digite seu senha"
             placeholder="Senha"

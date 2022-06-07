@@ -16,7 +16,7 @@ type Props = {
 };
 
 type LoginContextType = {
-  user: TypeUser | undefined;
+  user: TypeUser | undefined | Object;
   SignUp: (users: TypeUser) => Promise<boolean>;
   SignIn: (users: TypeUser) => Promise<boolean>;
 };
@@ -31,7 +31,7 @@ type FaunaResponseProps = {
 export const AuthContext = createContext({} as LoginContextType);
 
 export const AuthProvider = ({ children }: Props) => {
-  const [user, setUser] = useState<TypeUser>();
+  const [user, setUser] = useState<TypeUser | Object>();
 
   async function SignIn(user: TypeUser) {
     try {
@@ -57,6 +57,7 @@ export const AuthProvider = ({ children }: Props) => {
       );
 
       if (faunaResponse) {
+        setUser(faunaResponse.data);
         return true;
       } else {
         return false;
@@ -70,7 +71,7 @@ export const AuthProvider = ({ children }: Props) => {
 
   async function SignUp(user: TypeUser) {
     try {
-      const faunaResponse = await fauna.query(
+      const faunaResponse: FaunaResponseProps = await fauna.query(
         q.If(
           q.Not(
             q.Exists(q.Match(q.Index("user_by_email"), q.Casefold(user.email)))
@@ -82,6 +83,7 @@ export const AuthProvider = ({ children }: Props) => {
       );
 
       if (faunaResponse) {
+        setUser(faunaResponse.data);
         return true;
       } else {
         return false;

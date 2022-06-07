@@ -10,11 +10,11 @@ export default function RoutesApp() {
   const { user } = useAuth();
 
   const PrivateRoute = ({ children, redirectTo }) => {
-    return user?.IsLogged ? children : <Navigate to={redirectTo} />;
+    return user ? children : <Navigate to={redirectTo} />;
   };
 
   const PublicRoute = ({ children, redirectTo }) => {
-    return user?.IsLogged ? <Navigate to={redirectTo} /> : children;
+    return user ? <Navigate to={redirectTo} /> : children;
   };
 
   return (

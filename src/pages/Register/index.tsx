@@ -57,7 +57,7 @@ export default function RegisterScreen() {
             onChange={handleChange}
           />
           <input
-            type="text"
+            type="password"
             name="password"
             title="Digite sua senha"
             placeholder="Senha"
