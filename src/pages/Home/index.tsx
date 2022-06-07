@@ -7,6 +7,9 @@ export default function HomeScreen() {
     <>
       <h1>HomeScreen</h1>
       <button onClick={() => navigate("/login")}>Go to LoginScreen</button>
+      <button onClick={() => navigate("/register")}>
+        Go to RegisterScreen
+      </button>
     </>
   );
 }

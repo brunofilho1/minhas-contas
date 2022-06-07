@@ -3,17 +3,18 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { useAuth } from "./hooks/useAuth";
 import HomeScreen from "./pages/Home";
 import LoginScreen from "./pages/Login";
+import RegisterScreen from "./pages/Register";
 import TransactionsScreen from "./pages/Transactions";
 
 export default function RoutesApp() {
-  const { userInfo } = useAuth();
+  const { user } = useAuth();
 
   const PrivateRoute = ({ children, redirectTo }) => {
-    return userInfo?.IsLogged ? children : <Navigate to={redirectTo} />;
+    return user?.IsLogged ? children : <Navigate to={redirectTo} />;
   };
 
   const PublicRoute = ({ children, redirectTo }) => {
-    return userInfo?.IsLogged ? <Navigate to={redirectTo} /> : children;
+    return user?.IsLogged ? <Navigate to={redirectTo} /> : children;
   };
 
   return (
@@ -24,6 +25,14 @@ export default function RoutesApp() {
           element={
             <PublicRoute redirectTo="/transactions">
               <HomeScreen />
+            </PublicRoute>
+          }
+        />
+        <Route
+          path="/register"
+          element={
+            <PublicRoute redirectTo="/transactions">
+              <RegisterScreen />
             </PublicRoute>
           }
         />

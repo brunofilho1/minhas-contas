@@ -13,6 +13,7 @@
   "dependencies": {
     "@types/react-modal": "^3.13.1",
     "@types/sass": "^1.43.1",
+    "faunadb": "^4.5.4",
     "polished": "^4.1.4",
     "react": "^17.0.2",
     "react-currency-input-field": "^3.6.4",

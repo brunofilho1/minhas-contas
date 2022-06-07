@@ -5,8 +5,8 @@ import logoImg from "../../assets/logo2.png";
 import { useState } from "react";
 import { toast } from "react-toastify";
 
-export default function LoginScreen() {
-  const { user, SignIn } = useAuth();
+export default function RegisterScreen() {
+  const { user, SignUp } = useAuth();
   const [valueInput, setValueInput] = useState(Object);
   const navigate = useNavigate();
 
@@ -15,25 +15,26 @@ export default function LoginScreen() {
     setValueInput({ ...valueInput, [name]: value });
   };
 
-  const loginUser = async (event: any) => {
+  const registerUser = async (event: any) => {
     event.preventDefault();
 
-    const response = await SignIn({
+    const response = await SignUp({
+      name: valueInput.name,
       email: valueInput.email,
       password: valueInput.password,
     });
 
     if (response) {
-      toast.success("Logado com sucesso!");
+      toast.success("Registrado com sucesso!");
       return navigate("/transactions");
     } else {
-      toast.error("E-mail ou senha incorreta!");
+      toast.info("Esse usuário já está cadastrado!");
     }
   };
 
   return (
     <Container>
-      <form id="loginForm" onSubmit={loginUser}>
+      <form id="loginForm" onSubmit={() => registerUser(event)}>
         <div id="loginHeader">
           <img src={logoImg} alt="Minhas Contas" />
           <span>Faça login para continuar</span>
@@ -41,16 +42,24 @@ export default function LoginScreen() {
         <div id="loginBody">
           <input
             type="text"
+            name="name"
+            title="Digite seu nome"
+            placeholder="Nome"
+            required
+            onChange={handleChange}
+          />
+          <input
+            type="text"
             name="email"
             title="Digite seu e-mail"
-            placeholder="Usuário ou E-mail"
+            placeholder="E-mail"
             required
             onChange={handleChange}
           />
           <input
             type="text"
             name="password"
-            title="Digite seu senha"
+            title="Digite sua senha"
             placeholder="Senha"
             required
             onChange={handleChange}
@@ -58,8 +67,8 @@ export default function LoginScreen() {
           <button type="submit">Entrar</button>
         </div>
         <div id="loginFooter">
-          <Link to="/register" id="registerBtn">
-            Não tem uma conta? <b>Cadastre-se</b>
+          <Link to="/login" id="loginBtn">
+            Já tem uma conta? <b>Fazer login</b>
           </Link>
         </div>
       </form>
