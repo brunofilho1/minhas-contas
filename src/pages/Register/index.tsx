@@ -19,9 +19,13 @@ export default function RegisterScreen() {
     event.preventDefault();
 
     const response = await SignUp({
-      name: valueInput.name,
-      email: valueInput.email,
-      password: valueInput.password,
+      data: {
+        name: valueInput.name,
+        email: valueInput.email,
+      },
+      credentials: {
+        password: valueInput.password,
+      },
     });
 
     if (response) {

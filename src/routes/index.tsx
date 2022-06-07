@@ -1,19 +1,18 @@
-import { useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import { useAuth } from "./hooks/useAuth";
-import HomeScreen from "./pages/Home";
-import LoginScreen from "./pages/Login";
-import RegisterScreen from "./pages/Register";
-import TransactionsScreen from "./pages/Transactions";
+import { useAuth } from "../hooks/useAuth";
+import HomeScreen from "../pages/Home";
+import LoginScreen from "../pages/Login";
+import RegisterScreen from "../pages/Register";
+import TransactionsScreen from "../pages/Transactions";
 
 export default function RoutesApp() {
   const { user } = useAuth();
 
-  const PrivateRoute = ({ children, redirectTo }) => {
+  const PrivateRoute = ({ children, redirectTo }: any) => {
     return user ? children : <Navigate to={redirectTo} />;
   };
 
-  const PublicRoute = ({ children, redirectTo }) => {
+  const PublicRoute = ({ children, redirectTo }: any) => {
     return user ? <Navigate to={redirectTo} /> : children;
   };
 

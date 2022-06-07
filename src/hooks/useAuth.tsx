@@ -3,12 +3,12 @@ import { query as q } from "faunadb";
 import { fauna } from "../services/fauna";
 import { createContext, useState } from "react";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import bcrypt from "bcryptjs";
+import usePersistedState from "./usePersistedState";
 
 type TypeUser = {
   name?: string;
   email: string;
-  password: string;
 };
 
 type Props = {
@@ -17,31 +17,63 @@ type Props = {
 
 type LoginContextType = {
   user: TypeUser | undefined | Object;
-  SignUp: (users: TypeUser) => Promise<boolean>;
-  SignIn: (users: TypeUser) => Promise<boolean>;
+  SignUp: (users: SignProps) => Promise<boolean>;
+  SignIn: (users: SignProps) => Promise<boolean>;
 };
 
 type FaunaResponseProps = {
-  data: Object;
+  data: {
+    name: string;
+    email: string;
+    password: string;
+  };
   ref: Object;
   ts: number;
+};
+
+type SignProps = {
+  data: TypeUser;
+  credentials: {
+    password: string;
+  };
 };
 
 // Contexto com um valor semelhante ao que vai ser usado
 export const AuthContext = createContext({} as LoginContextType);
 
 export const AuthProvider = ({ children }: Props) => {
-  const [user, setUser] = useState<TypeUser | Object>();
+  const [user, setUser] = usePersistedState<TypeUser | Object>("userInfo", "");
 
-  async function SignIn(user: TypeUser) {
+  async function SignIn(user: SignProps) {
+    const userPassword: any = await fauna
+      .query(
+        q.If(
+          q.Exists(
+            q.Match(q.Index("user_by_email"), q.Casefold(user.data.email))
+          ),
+          q.Get(q.Match(q.Index("user_by_email"), q.Casefold(user.data.email))),
+          null
+        )
+      )
+      .then((res: any) => {
+        const passwordIsCorrect = bcrypt.compareSync(
+          user.credentials.password,
+          res.data.password
+        );
+        if (passwordIsCorrect) return res.data.password;
+      })
+      .catch((error) => {
+        return null;
+      });
+
     try {
       const faunaResponse: FaunaResponseProps = await fauna.query(
         q.If(
           q.Not(
             q.Exists(
               q.Intersection([
-                q.Match(q.Index("user_by_email"), q.Casefold(user.email)),
-                q.Match(q.Index("user_by_password"), q.Casefold(user.password)),
+                q.Match(q.Index("user_by_email"), q.Casefold(user.data.email)),
+                q.Match(q.Index("user_by_password"), userPassword),
               ])
             )
           ),
@@ -49,15 +81,20 @@ export const AuthProvider = ({ children }: Props) => {
           // else
           q.Get(
             q.Intersection([
-              q.Match(q.Index("user_by_email"), q.Casefold(user.email)),
-              q.Match(q.Index("user_by_password"), q.Casefold(user.password)),
+              q.Match(q.Index("user_by_email"), q.Casefold(user.data.email)),
+              q.Match(q.Index("user_by_password"), userPassword),
             ])
           )
         )
       );
 
+      const userInfo = {
+        name: faunaResponse.data.name,
+        email: faunaResponse.data.email,
+      };
+
       if (faunaResponse) {
-        setUser(faunaResponse.data);
+        setUser(JSON.stringify(userInfo));
         return true;
       } else {
         return false;
@@ -69,21 +106,40 @@ export const AuthProvider = ({ children }: Props) => {
     }
   }
 
-  async function SignUp(user: TypeUser) {
+  async function SignUp(user: SignProps) {
+    const saltRounds = bcrypt.genSaltSync(15);
+
+    const hashedPassword = bcrypt.hashSync(
+      user.credentials.password,
+      saltRounds
+    );
+
     try {
       const faunaResponse: FaunaResponseProps = await fauna.query(
         q.If(
           q.Not(
-            q.Exists(q.Match(q.Index("user_by_email"), q.Casefold(user.email)))
+            q.Exists(
+              q.Match(q.Index("user_by_email"), q.Casefold(user.data.email))
+            )
           ),
-          q.Create(q.Collection("users"), { data: user }),
+          q.Create(q.Collection("users"), {
+            data: {
+              ...user.data,
+              password: hashedPassword,
+            },
+          }),
           // else
           null
         )
       );
 
+      const userInfo = {
+        name: faunaResponse.data.name,
+        email: faunaResponse.data.email,
+      };
+
       if (faunaResponse) {
-        setUser(faunaResponse.data);
+        setUser(JSON.stringify(userInfo));
         return true;
       } else {
         return false;

@@ -19,8 +19,12 @@ export default function LoginScreen() {
     event.preventDefault();
 
     const response = await SignIn({
-      email: valueInput.email,
-      password: valueInput.password,
+      data: {
+        email: valueInput.email,
+      },
+      credentials: {
+        password: valueInput.password,
+      },
     });
 
     if (response) {
